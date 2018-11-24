@@ -32,4 +32,9 @@ class Risk extends Model
     protected $hidden = [
 
     ];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

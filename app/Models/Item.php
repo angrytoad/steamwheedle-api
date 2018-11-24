@@ -34,5 +34,8 @@ class Item extends Model
 
     ];
 
-
+    public function risk()
+    {
+        return $this->belongsTo(Risk::class);
+    }
 }
