@@ -20,3 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 $this->group(['middleware' => [], 'prefix' => '/test'], function() {
     $this->get('/','Test\TestController@test');
 });
+
+$this->group(['middleware' => [], 'prefix' => '/user'], function() {
+    $this->post('/register','User\RegisterController@post');
+    $this->post('/login','User\LoginController@login');
+});
