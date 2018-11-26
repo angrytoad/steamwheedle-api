@@ -21,7 +21,6 @@ class Risk extends Model
         'risk_id',
         'name',
         'swing',
-
     ];
 
     /**

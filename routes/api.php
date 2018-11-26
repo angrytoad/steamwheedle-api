@@ -25,3 +25,7 @@ $this->group(['middleware' => [], 'prefix' => '/user'], function() {
     $this->post('/register','User\RegisterController@post');
     $this->post('/login','User\LoginController@login');
 });
+
+$this->group(['middleware' => ['auth:api'], 'prefix' => 'auction'], function () {
+    $this->get('/categories', 'Category\CategoryController@fetch');
+});

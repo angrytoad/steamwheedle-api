@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Category extends Model
 {
     use Uuids;
 
@@ -17,12 +17,8 @@ class Item extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'risk_id',
-        'current_price',
-        'maximum_price',
-        'minimum_price'
+        'id',
+        'name'
     ];
 
     /**
@@ -34,13 +30,8 @@ class Item extends Model
 
     ];
 
-    public function risk()
+    public function items()
     {
-        return $this->belongsTo(Risk::class);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Item::class);
     }
 }

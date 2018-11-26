@@ -12,7 +12,6 @@ class RiskSeeder extends Seeder
      */
     public function run()
     {
-        Risk::query()->truncate();
         $risks = [
             [
                 'risk_id' => 1,
@@ -46,9 +45,15 @@ class RiskSeeder extends Seeder
     private function process(array $risks)
     {
         foreach ($risks as $props) {
-            $risk = new Risk();
-            $risk->fill($props);
-            $risk->save();
+            if (!$risk = Risk::where('name', $props['name'])->first()) {
+                $risk = new Risk();
+                $risk->fill($props);
+                $risk->save();
+            } else {
+                $risk->swing = $props['swing'];
+                $risk->save();
+            }
+
         }
     }
 }

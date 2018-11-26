@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->uuid('id');
             $table->string('name');
             $table->string('description');
-            $table->integer('risk_id');
+            $table->uuid('risk_id');
             $table->integer('current_price');
             $table->integer('maximum_price')->nullable();
             $table->integer('minimum_price')->nullable();
