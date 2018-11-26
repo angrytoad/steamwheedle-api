@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call('CategorySeeder');
         $this->call('RiskSeeder');
+        $this->call('RaritySeeder');
         $this->call('ItemSeeder');
     }
 }

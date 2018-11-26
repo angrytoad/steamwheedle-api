@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Item;
 use App\Models\Risk;
 use App\Models\Category;
+use App\Models\ItemRarity;
 
 class ItemSeeder extends Seeder
 {
@@ -14,41 +15,58 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
+        /**
+         * Item Rarities
+         * 1 - Poor
+         * 2 - Common
+         * 3 - Uncommon
+         * 4 - Rare
+         * 5 - Epic
+         * 6 - Legendary
+         * 7 - Artifact
+         * 8 - Heirloom
+         */
+
         $list = [
             'Strange Dust' => [
                 'description' => 'A mysterious dust used for low level enchanting.',
                 'current_price' => 500,
                 'risk_id' => 2,
-                'image' => 'strangedust.png',
-                'category_id' => 'Enchanting'
+                'image' => 'strangedust.jpg',
+                'category_id' => 'Enchanting',
+                'rarity_id' => 2,
             ],
             'Peacebloom' => [
                 'description' => 'A common herb used in minor healing potions.',
                 'current_price' => 200,
                 'risk_id' => 1,
-                'image' => 'peacebloom.png',
-                'category_id' => 'Herbalism'
+                'image' => 'peacebloom.jpg',
+                'category_id' => 'Herbalism',
+                'rarity_id' => 2,
             ],
             'Thick Leather' => [
                 'description' => 'A thick animal skin used in crafting armor.',
                 'current_price' => 2500,
                 'risk_id' => 4,
-                'image' => 'thickleather.png',
-                'category_id' => 'Leatherworking'
+                'image' => 'thickleather.jpg',
+                'category_id' => 'Leatherworking',
+                'rarity_id' => 2,
             ],
             'Arcane Crystals' => [
                 'description' => 'A rare yellow crystal sometimes found in thorium veins, used in the transmutation of arcanite.',
                 'current_price' => 10000,
                 'risk_id' => 4,
-                'image' => 'arcanecrystal.png',
-                'category_id' => 'Reagents'
+                'image' => 'arcanecrystal.jpg',
+                'category_id' => 'Reagents',
+                'rarity_id' => 3,
             ],
             'Sulfuron Ingot' => [
                 'description' => 'The pinnacle of all wrought metals, used in the crafting of the Sulfuron Hammer',
                 'current_price' => 500000,
                 'risk_id' => 3,
-                'image' => 'sulfuroningot.png',
-                'category_id' => 'Blacksmithing'
+                'image' => 'sulfuroningot.jpg',
+                'category_id' => 'Blacksmithing',
+                'rarity_id' => 5,
             ]
         ];
 
@@ -61,6 +79,7 @@ class ItemSeeder extends Seeder
             if ($item = Item::where('name', $name)->first()) {
                 $item->description = $props['description'];
                 $item->risk_id = Risk::where('risk_id', $props['risk_id'])->first()->id;
+                $item->rarity_id = ItemRarity::where('rarity_id', $props['rarity_id'])->first()->id;
                 $item->category_id = \App\Models\Category::where('name', $props['category_id'])->first()->id;
                 $item->image = '/items/' . $props['image'];
                 $item->save();
@@ -69,6 +88,7 @@ class ItemSeeder extends Seeder
                 $item->name = $name;
                 $item->description = $props['description'];
                 $item->risk_id = Risk::where('risk_id', $props['risk_id'])->first()->id;
+                $item->rarity_id = ItemRarity::where('rarity_id', $props['rarity_id'])->first()->id;
                 $item->category_id = \App\Models\Category::where('name', $props['category_id'])->first()->id;
                 $item->image = '/items/' . $props['image'];
                 $item->current_price = $props['current_price'];

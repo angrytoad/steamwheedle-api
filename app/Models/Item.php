@@ -43,4 +43,9 @@ class Item extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function rarity()
+    {
+        return $this->belongsTo(ItemRarity::class);
+    }
 }
