@@ -62,6 +62,9 @@ class Item extends Model
             unset($this->risk->swing);
             unset($this->risk->risk_id);
         }
+        if ($this->rarity instanceof Rarity) {
+            unset($this->rarity->rarity_id);
+        }
         $this->scrubDates([$this, $this->risk, $this->category, $this->rarity]);
         return $this;
     }
