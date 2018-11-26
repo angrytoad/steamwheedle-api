@@ -62,7 +62,7 @@ class ItemSeeder extends Seeder
                 $item->description = $props['description'];
                 $item->risk_id = Risk::where('risk_id', $props['risk_id'])->first()->id;
                 $item->category_id = \App\Models\Category::where('name', $props['category_id'])->first()->id;
-                $item->image = '/img/' . $props['image'];
+                $item->image = '/items/' . $props['image'];
                 $item->save();
             } else {
                 $item = new Item();
@@ -70,7 +70,7 @@ class ItemSeeder extends Seeder
                 $item->description = $props['description'];
                 $item->risk_id = Risk::where('risk_id', $props['risk_id'])->first()->id;
                 $item->category_id = \App\Models\Category::where('name', $props['category_id'])->first()->id;
-                $item->image = '/img/' . $props['image'];
+                $item->image = '/items/' . $props['image'];
                 $item->current_price = $props['current_price'];
                 $item->save();
             }
