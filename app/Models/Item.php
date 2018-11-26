@@ -58,25 +58,20 @@ class Item extends Model
     {
         unset($this->maximum_price);
         unset($this->minimum_price);
+        unset($this->category_id);
+        unset($this->rarity_id);
+        unset($this->risk_id);
+
         if ($this->risk instanceof Risk) {
             unset($this->risk->swing);
             unset($this->risk->risk_id);
         }
+
         if ($this->rarity instanceof Rarity) {
             unset($this->rarity->rarity_id);
         }
-        $this->scrubDates([$this, $this->risk, $this->category, $this->rarity]);
-        return $this;
-    }
 
-    public function addRelatedModels()
-    {
-        $this->risk = $this->risk;
-        unset($this->risk_id);
-        $this->rarity = $this->rarity;
-        unset($this->rarity_id);
-        $this->category = $this->category;
-        unset($this->category_id);
+        $this->scrubDates([$this, $this->risk, $this->category, $this->rarity]);
         return $this;
     }
 

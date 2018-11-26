@@ -23,7 +23,7 @@ class ItemController extends Controller {
             $response = Item::whereIn('category_id', $data)->get();
         }
         $response->map(function ($item) {
-            return $item->addRelatedModels()->safe();
+            return $item->safe();
         });
         return response()->json($response->toArray(), 200);
     }
