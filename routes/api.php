@@ -30,6 +30,7 @@ $this->group(['middleware' => ['auth:api'], 'prefix' => 'auction'], function () 
     $this->get('/categories', 'Category\CategoryController@fetch');
 
     $this->group(['middleware' => 'json'], function () {
-        $this->post('/items', 'Item\ItemController@filter');
+        $this->post('/items', 'Item\ItemController@filter');;
+        $this->post('/buy', 'Item\TradeController@buy')->middleware('has-funds');
     });
 });

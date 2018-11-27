@@ -52,6 +52,11 @@ class Item extends Model
         return $this->belongsTo(ItemRarity::class);
     }
 
+    public function holdings()
+    {
+        return $this->hasMany(Holding::class);
+    }
+
     // Methods
 
     public function safe()
