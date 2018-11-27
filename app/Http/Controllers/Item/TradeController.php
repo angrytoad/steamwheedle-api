@@ -14,7 +14,6 @@ class TradeController extends Controller {
         $user = $request->user();
 
         $holding = new Holding;
-        $holding->id = Uuid::uuid4();
         $holding->quantity = $request->get('quantity');
         $holding->buy_price = $item->current_price;
         $holding->item_id = $item->id;
