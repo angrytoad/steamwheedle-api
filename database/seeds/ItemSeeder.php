@@ -49,7 +49,7 @@ class ItemSeeder extends Seeder
                 'current_price' => 2500,
                 'risk_id' => 4,
                 'image' => 'thickleather.jpg',
-                'category_id' => 'Leatherworking',
+                'category_id' => 'Skinning',
                 'rarity_id' => 2,
             ],
             'Arcane Crystals' => [
