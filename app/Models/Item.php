@@ -63,9 +63,6 @@ class Item extends Model
     {
         unset($this->maximum_price);
         unset($this->minimum_price);
-        unset($this->category_id);
-        unset($this->rarity_id);
-        unset($this->risk_id);
 
         if ($this->risk instanceof Risk) {
             unset($this->risk->swing);
