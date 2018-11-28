@@ -25,4 +25,30 @@ class TradeController extends Controller {
         return response()->json(['balance' => $user->balance], 200);
     }
 
+    public function sell(Request $request)
+    {
+        $purchase = ItemPurchase::find($request->get('item_purchase_id'));
+        $quantity = $request->get('quantity');
+        $user = $request->user();
+
+        $value = $quantity * $purchase->item->current_price;
+        $user->balance = $user->balance + $value;
+
+        $profit = $value - ($quantity * $purchase->buy_price);
+        $user->profit = $user->profit + $profit;
+
+        $user->save();
+
+        if ($purchase->quantity === $request->get('quantity')) {
+            $purchase->delete();
+            $rem = 0;
+        } else {
+            $purchase->quantity = $purchase->quantity - $quantity;
+            $purchase->save();
+            $rem = $purchase->quantity;
+        }
+
+        return response()->json(['balance' => $user->balance, 'remaining' => $rem, 'profit' => $profit], 200);
+    }
+
 }
