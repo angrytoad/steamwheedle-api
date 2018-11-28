@@ -52,9 +52,9 @@ class Item extends Model
         return $this->belongsTo(ItemRarity::class);
     }
 
-    public function holdings()
+    public function purchases()
     {
-        return $this->hasMany(Holding::class);
+        return $this->hasMany(ItemPurchase::class);
     }
 
     // Methods

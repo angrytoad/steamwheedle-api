@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Holding extends Model
+class ItemPurchase extends Model
 {
     use Uuids;
 

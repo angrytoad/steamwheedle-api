@@ -33,8 +33,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function holdings()
+    public function purchases()
     {
-        return $this->hasMany(Holding::class);
+        return $this->hasMany(ItemPurchase::class);
     }
 }

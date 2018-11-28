@@ -13,7 +13,7 @@ class CreateHoldingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('holdings', function (Blueprint $table) {
+        Schema::create('item_purchases', function (Blueprint $table) {
             $table->uuid('id');
             $table->uuid('user_id');
             $table->uuid('item_id');
@@ -30,6 +30,6 @@ class CreateHoldingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('holdings');
+        Schema::dropIfExists('item_purchases');
     }
 }

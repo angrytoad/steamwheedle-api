@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Item;
 
 use App\Http\Controllers\Controller;
-use App\Models\Holding;
+use App\Models\ItemPurchase;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
@@ -13,7 +13,7 @@ class TradeController extends Controller {
         $item = Item::find($request->get('item_id'));
         $user = $request->user();
 
-        $holding = new Holding;
+        $holding = new ItemPurchase;
         $holding->quantity = $request->get('quantity');
         $holding->buy_price = $item->current_price;
         $holding->item_id = $item->id;
