@@ -35,3 +35,9 @@ $this->group(['middleware' => ['auth:api'], 'prefix' => 'auction'], function () 
         $this->post('/sell', 'Item\TradeController@sell')->middleware('has-stock');
     });
 });
+
+$this->group(['middleware' => 'auth:api'], function () {
+    $this->group(['prefix' => 'user'], function () {
+        $this->get('/purchases', 'User\PurchasesController@purchases');
+    });
+});
