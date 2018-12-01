@@ -17,7 +17,7 @@ class ItemPurchase extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'item_id', 'quantity', 'buy_price', 'id'
+        'user_id', 'item_id', 'quantity', 'buy_price', 'id', 'current'
     ];
 
     public function user()
@@ -28,6 +28,11 @@ class ItemPurchase extends Model
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public static function difference(Item $item, int $period) :int
+    {
+        $items = Self::where('id', $item->id)->where('updated_at', '>=', now() - $period)->get();;
     }
 
 }

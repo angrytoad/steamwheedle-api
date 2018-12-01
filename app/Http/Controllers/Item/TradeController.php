@@ -15,6 +15,7 @@ class TradeController extends Controller {
 
         $holding = new ItemPurchase;
         $holding->quantity = $request->get('quantity');
+        $holding->current = $holding->quantity;
         $holding->buy_price = $item->current_price;
         $holding->item_id = $item->id;
         $holding->user_id = $user->id;
@@ -39,14 +40,9 @@ class TradeController extends Controller {
 
         $user->save();
 
-        if ($purchase->quantity === $request->get('quantity')) {
-            $purchase->delete();
-            $rem = 0;
-        } else {
-            $purchase->quantity = $purchase->quantity - $quantity;
-            $purchase->save();
-            $rem = $purchase->quantity;
-        }
+        $purchase->current = $purchase->current - $quantity;
+        $purchase->save();
+        $rem = $purchase->current;
 
         return response()->json(['balance' => $user->balance, 'remaining' => $rem, 'profit' => $profit], 200);
     }
