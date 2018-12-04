@@ -12,7 +12,7 @@ class AdjustPrices extends Command
      *
      * @var string
      */
-    protected $signature = 'adjust:prices';
+    protected $signature = 'adjust:prices {times=1}';
 
     /**
      * The console command description.
@@ -38,6 +38,11 @@ class AdjustPrices extends Command
      */
     public function handle(PriceAdjustmentService $adjuster)
     {
-        $adjuster->adjust();
+        $times = $this->argument('times');
+        $count = 0;
+        do {
+            $adjuster->adjust();
+            $count++;
+        } while($count != $times);
     }
 }

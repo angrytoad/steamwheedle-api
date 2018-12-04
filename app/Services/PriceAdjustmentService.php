@@ -35,9 +35,13 @@ class PriceAdjustmentService {
             return 0;
         }
         if ($item->current_price > $item->base_price) {
-            $proportion = 1 - ($item->current_price / (($item->base_price * $this->upperBound) - $item->base_price));
+            $max = $item->base_price * $this->upperBound;
+            $min = $item->base_price;
+            $proportion = $item->current_price / ($max - $min);
         } elseif ($item->current_price < $item->base_price) {
-            $proportion = $item->current_price / ($item->base_price - ($item->base_price * $this->lowerBound));
+            $min = $item->base_price * $this->lowerBound;
+            $max = $item->base_price;
+            $proportion = $item->current_price / ($max - $min);
         } else {
             $proportion = 1;
         }
@@ -49,6 +53,8 @@ class PriceAdjustmentService {
         foreach ($this->items as $item)
         {
             $change = $this->calcPercentChange($item);
+            $item->current_price = $item->current_price * $change;
+            $item->save();
         }
     }
 
