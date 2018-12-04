@@ -13,7 +13,7 @@ class AddUserIdToHistoricPurchases extends Migration
      */
     public function up()
     {
-        Schema::table('historic_purchases', function (Blueprint $table) {
+        Schema::table('historic_transactions', function (Blueprint $table) {
             $table->uuid('item_purchase_id');
         });
     }
@@ -25,7 +25,7 @@ class AddUserIdToHistoricPurchases extends Migration
      */
     public function down()
     {
-        Schema::table('historic_purchases', function (Blueprint $table) {
+        Schema::table('historic_transactions', function (Blueprint $table) {
             $table->dropColumn('item_purchase_id');
         });
     }

@@ -27,7 +27,7 @@ class HasStock
         if ($purchase->user->id !== $request->user()->id) {
             return response()->json(['message' => 'This is not yours'], 400);
         }
-        if ($data['quantiy'] > $purchase->current) {
+        if ($data['quantity'] > $purchase->current) {
             return response()->json(['message' => 'You don\'t own that much.'], 400);
         }
         return $next($request);
