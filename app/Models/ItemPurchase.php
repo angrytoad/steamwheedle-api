@@ -30,9 +30,9 @@ class ItemPurchase extends Model
         return $this->belongsTo(Item::class);
     }
 
-    public static function difference(Item $item, int $period) :int
+    public function historic_purchases()
     {
-        $items = Self::where('id', $item->id)->where('updated_at', '>=', now() - $period)->get();;
+        return $this->hasMany(HistoricTransaction::class);
     }
 
 }

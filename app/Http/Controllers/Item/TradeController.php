@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Item;
 
 use App\Http\Controllers\Controller;
+use App\Models\HistoricTransaction;
 use App\Models\ItemPurchase;
 use App\Models\Item;
 use Illuminate\Http\Request;
@@ -23,6 +24,12 @@ class TradeController extends Controller {
         $user->balance = $user->balance - ($item->current_price * $request->get('quantity'));
         $user->save();
 
+        $historic = new HistoricTransaction();
+        $historic->item_id = $item->id;
+        $historic->quantity = $request->get('quantity');
+        $historic->type = true;
+        $historic->save();
+
         return response()->json(['balance' => $user->balance], 200);
     }
 
@@ -43,6 +50,12 @@ class TradeController extends Controller {
         $purchase->current = $purchase->current - $quantity;
         $purchase->save();
         $rem = $purchase->current;
+
+        $historic = new HistoricTransaction();
+        $historic->item_id = $purchase->item_id;
+        $historic->quantity = $quantity;
+        $historic->type = false;
+        $historic->save();
 
         return response()->json(['balance' => $user->balance, 'remaining' => $rem, 'profit' => $profit], 200);
     }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Risk;
 
 class Item extends Model
 {
@@ -22,8 +21,7 @@ class Item extends Model
         'description',
         'risk_id',
         'current_price',
-        'maximum_price',
-        'minimum_price'
+        'base_price'
     ];
 
     /**
@@ -55,6 +53,11 @@ class Item extends Model
     public function purchases()
     {
         return $this->hasMany(ItemPurchase::class);
+    }
+
+    public function historic_transactions()
+    {
+        return $this->hasMany(HistoricTransaction::class);
     }
 
     // Methods

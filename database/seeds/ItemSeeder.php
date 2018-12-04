@@ -82,6 +82,7 @@ class ItemSeeder extends Seeder
                 $item->rarity_id = ItemRarity::where('rarity_id', $props['rarity_id'])->first()->id;
                 $item->category_id = \App\Models\Category::where('name', $props['category_id'])->first()->id;
                 $item->image = '/items/' . $props['image'];
+                $item->base_price = $props['current_price'];
                 $item->save();
             } else {
                 $item = new Item();
@@ -92,6 +93,7 @@ class ItemSeeder extends Seeder
                 $item->category_id = \App\Models\Category::where('name', $props['category_id'])->first()->id;
                 $item->image = '/items/' . $props['image'];
                 $item->current_price = $props['current_price'];
+                $item->base_price = $props['current_price'];
                 $item->save();
             }
         }
