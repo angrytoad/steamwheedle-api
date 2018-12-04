@@ -26,6 +26,7 @@ class TradeController extends Controller {
 
         $historic = new HistoricTransaction();
         $historic->item_id = $item->id;
+        $historic->item_purchase_id = $holding->id;
         $historic->quantity = $request->get('quantity');
         $historic->type = true;
         $historic->save();
@@ -53,6 +54,7 @@ class TradeController extends Controller {
 
         $historic = new HistoricTransaction();
         $historic->item_id = $purchase->item_id;
+        $historic->item_purchase_id = $purchase->id;
         $historic->quantity = $quantity;
         $historic->type = false;
         $historic->save();

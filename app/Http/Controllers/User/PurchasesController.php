@@ -14,7 +14,7 @@ class PurchasesController extends Controller {
 
     public function purchases(Request $request)
     {
-        $purchases = $request->user()->purchases->sortBy('buy_price')->groupBy('item_id');
+        $purchases = $request->user()->purchases->where('current','!==',0)->sortBy('buy_price')->groupBy('item_id');
         $return = [];
         foreach ($purchases as $id => $arr) {
             $return[Item::find($id)->name] = $arr;
