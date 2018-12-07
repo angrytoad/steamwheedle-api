@@ -39,10 +39,14 @@ class FreshItems extends Command
     public function handle()
     {
         if ($this->confirm("Do you wish to preserve current item prices?")) {
-            $this->call('db:seed --class=ItemSeeder');
+            $this->call('db:seed', [
+                '--class' => 'ItemSeeder'
+            ]);
         } else {
             Item::query()->truncate();
-            $this->call('db:seed --class=ItemSeeder');
+            $this->call('db:seed', [
+                '--class' => 'ItemSeeder'
+            ]);
         }
     }
 }
