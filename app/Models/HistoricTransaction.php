@@ -33,11 +33,12 @@ class HistoricTransaction extends Model {
      */
     public static function difference(Item $item, int $period) :int
     {
+        // Fetch all historic transactions that occurred for that item in the previous interval period
         $items = self::where('item_id', $item->id)->where('updated_at', '>=', now()->timestamp - $period)->get();
         $total = 0;
         foreach ($items as $item) {
             // The type property defined if a transaction was a buy or a sell: 0 - Sell, 1 - Buy
-            if (!empty($item->type)) {
+            if ($item->type === 1) {
                 $total += $item->quantity;
             } else {
                 $total -= $item->quantity;
