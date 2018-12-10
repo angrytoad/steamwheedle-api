@@ -24,12 +24,20 @@ class HistoricTransaction extends Model {
         'type'
     ];
 
+    /**
+     * Static function for calculating the different in buys and sells over a specified period
+     *
+     * @param Item $item
+     * @param int $period
+     * @return int
+     */
     public static function difference(Item $item, int $period) :int
     {
         $items = self::where('item_id', $item->id)->where('updated_at', '>=', now()->timestamp - $period)->get();
         $total = 0;
         foreach ($items as $item) {
-            if ($item->type) {
+            // The type property defined if a transaction was a buy or a sell: 0 - Sell, 1 - Buy
+            if (!empty($item->type)) {
                 $total += $item->quantity;
             } else {
                 $total -= $item->quantity;

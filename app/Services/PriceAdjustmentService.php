@@ -28,6 +28,12 @@ class PriceAdjustmentService {
         $this->lowerBound = $config['lowerBound'];
     }
 
+    /**
+     * Calculates the percentage change for each item provided, this is proportional to the relative current price to the base price
+     *
+     * @param Item $item
+     * @return int
+     */
     private function calcPercentChange(Item $item) :int
     {
         $diff = HistoricTransaction::difference($item, $this->interval);
@@ -35,17 +41,28 @@ class PriceAdjustmentService {
             return 0;
         }
         if ($item->current_price > $item->base_price) {
+
+            /*
+             * Proportion is essentially current price divided by max price, normalised by reducing both by the base price for a scale that starts at 0
+             */
+
             $max = $item->base_price * $this->upperBound;
-            $min = $item->base_price;
-            $proportion = $item->current_price / ($max - $min);
+            $proportion = ($item->current_price - $item->base_price) / ($max - $item->base_price);
+
         } elseif ($item->current_price < $item->base_price) {
+
+            /*
+             * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
+             */
+
             $min = $item->base_price * $this->lowerBound;
-            $max = $item->base_price;
-            $proportion = $item->current_price / ($max - $min);
+            $proportion = 1 - ($item->current_price - $min) / ($item->base_price - $min);
+
         } else {
             $proportion = 1;
         }
-        return $item->risk->swing * $proportion;
+        // Applied the set rounding
+        return $this->round($item->risk->swing * $proportion);
     }
 
     public function adjust()
@@ -56,6 +73,18 @@ class PriceAdjustmentService {
             $item->current_price = $item->current_price * $change;
             $item->save();
         }
+    }
+
+    private function round($float)
+    {
+        if ($this->rounding === -1) {
+            return floor($float);
+        } elseif ($this->rounding === 0) {
+            return round($float);
+        } elseif ($this->rounding === 1) {
+            return ceil($float);
+        }
+        return floor($float);
     }
 
 }
