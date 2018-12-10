@@ -34,7 +34,7 @@ class PriceAdjustmentService {
      * @param Item $item
      * @return int
      */
-    private function calcPercentChange(Item $item) :int
+    private function calcProportionChange(Item $item) :int
     {
         // Get the difference in buy and sells for a specified item
         $diff = HistoricTransaction::difference($item, $this->interval);
@@ -73,7 +73,7 @@ class PriceAdjustmentService {
         // Cycle through each item and calculate the adjustment
         foreach ($this->items as $item)
         {
-            $change = $this->calcPercentChange($item);
+            $change = $this->calcProportionChange($item);
             if ($change !== 0) {
                 $item->current_price = $item->current_price * $change;
                 $item->save();
