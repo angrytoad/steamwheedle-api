@@ -36,7 +36,9 @@ class PriceAdjustmentService {
      */
     private function calcPercentChange(Item $item) :int
     {
+        // Get the difference in buy and sells for a specified item
         $diff = HistoricTransaction::difference($item, $this->interval);
+        // If sales are equal to purchases make no price change
         if ($diff === 0) {
             return 0;
         }
@@ -59,19 +61,23 @@ class PriceAdjustmentService {
             $proportion = 1 - ($item->current_price - $min) / ($item->base_price - $min);
 
         } else {
+            // If the item is at its base price then the full swing is used
             $proportion = 1;
         }
-        // Applied the set rounding
+        // Apply the specified rounding
         return $this->round($item->risk->swing * $proportion);
     }
 
     public function adjust()
     {
+        // Cycle through each item and calculate the adjustment
         foreach ($this->items as $item)
         {
             $change = $this->calcPercentChange($item);
-            $item->current_price = $item->current_price * $change;
-            $item->save();
+            if ($change !== 0) {
+                $item->current_price = $item->current_price * $change;
+                $item->save();
+            }
         }
     }
 

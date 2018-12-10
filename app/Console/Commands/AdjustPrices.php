@@ -34,6 +34,7 @@ class AdjustPrices extends Command
     /**
      * Execute the console command.
      *
+     * @param PriceAdjustmentService
      * @return mixed
      */
     public function handle(PriceAdjustmentService $adjuster)
