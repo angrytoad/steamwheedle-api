@@ -5,9 +5,6 @@ use App\Models\HistoricTransaction;
 
 class PriceAdjustmentService {
 
-    protected $items;
-    protected $change = [];
-
     //config options
     protected $rounding;
     protected $interval;
