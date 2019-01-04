@@ -62,7 +62,7 @@ class PriceAdjustmentService {
             $proportion = 1;
         }
         // Apply the specified rounding
-        return $this->round($item->risk->swing * $proportion);
+        return ($item->risk->swing * $proportion) / 100;
     }
 
     public function adjust()
@@ -72,7 +72,7 @@ class PriceAdjustmentService {
         {
             $change = $this->calcProportionChange($item);
             if ($change !== 0) {
-                $item->current_price = $item->current_price * $change;
+                $item->current_price = $this->round($item->current_price * $change);
                 $item->save();
             }
         }
