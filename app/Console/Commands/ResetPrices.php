@@ -42,7 +42,7 @@ class ResetPrices extends Command
         $config = config('items');
         $items = Item::all();
         foreach ($items as $item) {
-            if (key_exists($item->name, $config)) {
+            if (array_key_exists($item->name, $config)) {
                 if (!$this->option('current') && $this->option('base')) {
                     $item->base_price = $config[$item->name]['current_price'];
                     $item->current_price = $config[$item->name]['current_price'];
@@ -54,6 +54,8 @@ class ResetPrices extends Command
                     $item->current_price = $config[$item->name]['current_price'];
                 }
                 $item->save();
+            }else{
+                $this->comment('No Item called '.$item->name.' found in config.');
             }
         }
     }
