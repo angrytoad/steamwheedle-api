@@ -76,7 +76,7 @@ class PriceAdjustmentService {
             {
                 $change = $this->calcProportionChange($item);
                 if ($change !== 0) {
-                    $item->current_price = $item->current_price + $this->round($item->current_price * $change);
+                    $item->current_price = $this->round($item->current_price + $item->current_price * $change);
                     $item->save();
                     //dd($item->current_price * $change);
                 }
