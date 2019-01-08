@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HistoricTransaction;
 use App\Models\ItemPurchase;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
@@ -40,13 +41,15 @@ class TradeController extends Controller {
         $quantity = $request->get('quantity');
         $user = $request->user();
 
-        $value = $quantity * $purchase->item->current_price;
-        $user->balance = (1 - env('cut', 0.05)) * ($user->balance + $value);
+        $current_value = $quantity * $purchase->item->current_price;
+        $buy_value = $quantity * $purchase->buy_price;
+        $profit = $current_value - $buy_value;
 
-        $profit = $value - ($quantity * $purchase->buy_price);
-        $user->profit = (1 - env('cut', 0.05)) * $user->profit + $profit;
-
+        $user->balance =  (1 - env('cut', 0.05)) * ($user->balance + $buy_value + $profit);
+        $user->profit = $user->profit + $profit;
         $user->save();
+
+        $this->addLevelExperience($user, $profit);
 
         $purchase->current = $purchase->current - $quantity;
         $purchase->save();
@@ -60,6 +63,24 @@ class TradeController extends Controller {
         $historic->save();
 
         return response()->json(['balance' => $user->balance, 'remaining' => $rem, 'profit' => $profit], 200);
+    }
+
+    private function addLevelExperience(User $user, Int $profit){
+        $experience = floor($profit/10);
+        $levels = config('levels');
+        while($experience > 0){
+            $newTotal = $user->current_experience + $experience;
+            $levelupRequired = $levels[$user->level];
+            if($newTotal >= $levelupRequired){
+                $user->level += 1;
+                $experience -= ($levelupRequired - $user->current_experience);
+                $user->current_experience = 0;
+            }else{
+                $user->current_experience = $newTotal;
+                $experience = 0;
+            }
+        }
+        $user->save();
     }
 
 }

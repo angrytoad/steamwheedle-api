@@ -17,6 +17,10 @@ Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth:api'])->get('/levels', function (Request $request) {
+    return config('levels');
+});
+
 $this->group(['middleware' => [], 'prefix' => '/test'], function() {
     $this->get('/','Test\TestController@test');
 });
