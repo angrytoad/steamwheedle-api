@@ -35,9 +35,22 @@ class PriceAdjustmentService {
     {
         // Get the difference in buy and sells for a specified item
         $diff = HistoricTransaction::difference($item, $this->interval);
+
         // If sales are equal to purchases make no price change
         if ($diff === 0) {
-            return 0;
+            // Check if price RNG is turned on in the env file
+            if (env('APP_RNG', false) == false) {
+                return 0;
+            }
+            // Gen a random number 80% no movement, 10% up, 10% down
+            $rng = rand(0, 1);
+            if ($rng <= 0.8) {
+                return 0;
+            } elseif($rng >= 0.9) {
+                $diff = 1;
+            } else {
+                $diff = -1;
+            }
         }
         if ($diff > 0) {
 
