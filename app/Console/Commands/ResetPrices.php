@@ -43,7 +43,7 @@ class ResetPrices extends Command
         $items = Item::all();
         foreach ($items as $item) {
             if (array_key_exists($item->name, $config)) {
-                if (!$this->option('current') && $this->option('base')) {
+                if (!$this->option('current') && !$this->option('base')) {
                     $item->base_price = $config[$item->name]['current_price'];
                     $item->current_price = $config[$item->name]['current_price'];
                 }

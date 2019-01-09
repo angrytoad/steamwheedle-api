@@ -43,10 +43,10 @@ class PriceAdjustmentService {
                 return 0;
             }
             // Gen a random number 80% no movement, 10% up, 10% down
-            $rng = rand(0, 1);
-            if ($rng <= 0.8) {
+            $rng = rand(1, 10);
+            if ($rng <= 8) {
                 return 0;
-            } elseif($rng >= 0.9) {
+            } elseif($rng > 9) {
                 $diff = 1;
             } else {
                 $diff = -1;
