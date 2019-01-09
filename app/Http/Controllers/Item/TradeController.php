@@ -45,7 +45,7 @@ class TradeController extends Controller {
         $buy_value = $quantity * $purchase->buy_price;
         $profit = $current_value - $buy_value;
 
-        $user->balance =  (1 - env('cut', 0.05)) * ($user->balance + $buy_value + $profit);
+        $user->balance =  $user->balance + ((1 - env('cut', 0.05)) * $buy_value + $profit);
         $user->profit = $user->profit + $profit;
         $user->save();
 
