@@ -172,7 +172,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\PriceAdjustmentServiceProvider::class
+        App\Providers\PriceAdjustmentServiceProvider::class,
+        \App\Providers\MetricServiceProvider::class
 
     ],
 

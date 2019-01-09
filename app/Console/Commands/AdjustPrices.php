@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\PriceAdjustmentService;
 use Illuminate\Console\Command;
+use App\Services\MetricService;
 
 class AdjustPrices extends Command
 {
@@ -19,7 +20,7 @@ class AdjustPrices extends Command
      *
      * @var string
      */
-    protected $description = 'Performs the 5min interval price changes on all items.';
+    protected $description = 'Performs the 5min interval price changes on all items and updates metrics.';
 
     /**
      * Create a new command instance.
@@ -34,16 +35,19 @@ class AdjustPrices extends Command
     /**
      * Execute the console command.
      *
-     * @param PriceAdjustmentService
-     * @return mixed
+     * @param PriceAdjustmentService $adjuster
+     * @param MetricService $metrics
+     * @return void
      */
-    public function handle(PriceAdjustmentService $adjuster)
+    public function handle(PriceAdjustmentService $adjuster, MetricService $metrics)
     {
+        $metric = $metrics->doMetrics();
         $times = $this->argument('times');
         $count = 0;
         do {
             $adjuster->adjust();
             $count++;
         } while($count != $times);
+        $metrics->recordEnd($metric);
     }
 }

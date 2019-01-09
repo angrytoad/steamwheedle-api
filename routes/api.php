@@ -32,6 +32,7 @@ $this->group(['middleware' => [], 'prefix' => '/user'], function() {
 
 $this->group(['middleware' => ['auth:api'], 'prefix' => 'auction'], function () {
     $this->get('/categories', 'Category\CategoryController@fetch');
+    $this->get('/update', 'TimeController@countdown');
 
     $this->group(['middleware' => 'json'], function () {
         $this->post('/items', 'Item\ItemController@filter');;
