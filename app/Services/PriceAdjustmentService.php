@@ -76,9 +76,15 @@ class PriceAdjustmentService {
             {
                 $change = $this->calcProportionChange($item);
                 if ($change !== 0) {
-                    $item->current_price = $this->round($item->current_price + $item->current_price * $change);
+                    $increase = $item->current_price * $change;
+                    // To compensate for rounding on negative numbers, trying to avoid 0 here
+                    if ($increase > 0) {
+                        $increase = ceil($increase);
+                    } elseif ($increase < 0) {
+                        $increase = floor($increase);
+                    }
+                    $item->current_price = $this->round($item->current_price + $increase);
                     $item->save();
-                    //dd($item->current_price * $change);
                 }
             }
         }
