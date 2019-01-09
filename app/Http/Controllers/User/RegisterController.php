@@ -23,12 +23,28 @@ class RegisterController extends Controller
 
     }
 
-    public function post(Request $request) {
+    /**
+     * Handle registration post requests
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function post(Request $request)
+    {
         $request->validate([
             'username' => 'required|unique:users',
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
+
+        // Check if a users signup email is in the closed beta approved list
+        if (config('beta.status') === 'closed') {
+            if (!in_array($request->get('email'), config('beta.approved'))) {
+                return response()->json([
+                    'message' => 'This email is not approved for closed beta access.'
+                ], 401);
+            }
+        }
 
         $user = User::create([
             'username' => $request->get('username'),
