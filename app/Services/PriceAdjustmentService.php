@@ -39,7 +39,7 @@ class PriceAdjustmentService {
         // If sales are equal to purchases make no price change
         if ($diff === 0) {
             // Check if price RNG is turned on in the env file
-            if (env('APP_RNG', false) == false) {
+            if (env('APP_RNG', false) === false) {
                 return 0;
             }
             // Gen a random number 80% no movement, 10% up, 10% down

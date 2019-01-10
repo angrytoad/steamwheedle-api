@@ -61,7 +61,7 @@ class MetricService
             $wealth += $user->balance;
         }
         foreach(ItemPurchase::all() as $stock) {
-            $wealth += $stock->current * $stock->item()->current_price;
+            $wealth += $stock->current * $stock->item->current_price;
         }
         return $wealth;
     }
