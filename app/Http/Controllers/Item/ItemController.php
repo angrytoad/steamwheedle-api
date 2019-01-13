@@ -18,9 +18,9 @@ class ItemController extends Controller {
             return response()->json(['Array expected'], 422);
         }
         if (empty($data)) {
-            $response = Item::all();
+            $response = Item::orderBy('current_price','ASC')->get();
         } else {
-            $response = Item::whereIn('category_id', $data)->get();
+            $response = Item::whereIn('category_id', $data)->orderBy('current_price','ASC')->get();
         }
         $response->map(function ($item) {
             return $item->safe();
