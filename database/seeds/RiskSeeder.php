@@ -16,17 +16,17 @@ class RiskSeeder extends Seeder
             [
                 'risk_id' => 1,
                 'name' => 'Very Low',
-                'swing' => 0.1
+                'swing' => 0.5
             ],
             [
                 'risk_id' => 2,
                 'name' => 'Low',
-                'swing' => 0.5
+                'swing' => 1
             ],
             [
                 'risk_id' => 3,
                 'name' => 'Medium',
-                'swing' => 1.5
+                'swing' => 2
             ],
             [
                 'risk_id' => 4,
