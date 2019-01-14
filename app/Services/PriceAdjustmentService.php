@@ -82,7 +82,7 @@ class PriceAdjustmentService {
                  * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
                  */
                 $max = $item->base_price * $this->upperBound;
-                $proportion = 1 + (($item->current_price - $item->base_price) / ($max - $item->base_price));
+                $proportion = -(1 + (($item->current_price - $item->base_price) / ($max - $item->base_price)));
             } elseif ($item->current_price < $item->base_price) {
                 /*
                  * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
