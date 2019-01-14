@@ -54,23 +54,47 @@ class PriceAdjustmentService {
         }
         if ($diff > 0) {
 
+            if ($item->current_price > $item->base_price) {
+                /*
+                 * Proportion is essentially current price divided by max price, normalised by reducing both by the base price for a scale that starts at 0
+                 */
+
+                $max = $item->base_price * $this->upperBound;
+                $proportion = 1 - ($item->current_price - $item->base_price) / ($max - $item->base_price);
+            } elseif ($item->current_price < $item->base_price) {
+                /*
+                 * Proportion is essentially current price divided by max price, normalised by reducing both by the base price for a scale that starts at 0
+                 */
+                $min = $item->base_price * $this->lowerBound;
+                $proportion = 1 + (1 - (($item->current_price - $min) / ($item->base_price - $min)));
+            } elseif ($item->current_price === $item->base_price) {
+                $proportion = 1;
+            }
+
             /*
-             * Proportion is essentially current price divided by max price, normalised by reducing both by the base price for a scale that starts at 0
+             * Make proportions larger for items below their base price
              */
 
-            $max = $item->base_price * $this->upperBound;
-            $proportion = 1 - ($item->current_price - $item->base_price) / ($max - $item->base_price);
         } elseif ($diff < 0) {
 
-            /*
-             * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
-             */
-            $min = $item->base_price * $this->lowerBound;
-            $proportion = -($item->current_price - $min) / ($item->base_price - $min);
-        } else {
-            // If the item is at its base price then the full swing is used
-            $proportion = 1;
+            if ($item->current_price > $item->base_price) {
+                /*
+                 * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
+                 */
+                $max = $item->base_price * $this->upperBound;
+                $proportion = 1 + (($item->current_price - $item->base_price) / ($max - $item->base_price));
+            } elseif ($item->current_price < $item->base_price) {
+                /*
+                 * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
+                 */
+                $min = $item->base_price * $this->lowerBound;
+                $proportion = -($item->current_price - $min) / ($item->base_price - $min);
+            } elseif ($item->current_price === $item->base_price) {
+                $proportion = 1;
+            }
+
         }
+
         // Apply the specified rounding
         return ($item->risk->swing * $proportion) / 100;
     }

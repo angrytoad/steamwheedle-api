@@ -31,12 +31,12 @@ class RiskSeeder extends Seeder
             [
                 'risk_id' => 4,
                 'name' => 'High',
-                'swing' => 10
+                'swing' => 8
             ],
             [
                 'risk_id' => 5,
                 'name' => 'Very High',
-                'swing' => 20
+                'swing' => 12
             ]
         ];
         $this->process($risks);
