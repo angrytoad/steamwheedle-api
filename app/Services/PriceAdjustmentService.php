@@ -90,7 +90,7 @@ class PriceAdjustmentService {
                 $min = $item->base_price * $this->lowerBound;
                 $proportion = -($item->current_price - $min) / ($item->base_price - $min);
             } elseif ($item->current_price === $item->base_price) {
-                $proportion = 1;
+                $proportion = -1;
             }
 
         }
