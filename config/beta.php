@@ -3,6 +3,7 @@
     'approved' => [
         // Approved free market capitalist emails go here
         'vornat2@gmail.com',
-        'tom@firecat.io'
+        'tom@firecat.io',
+        'phaygewow@gmail.com',
     ],
 ];
