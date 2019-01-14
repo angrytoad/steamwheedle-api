@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('adjust:prices')->cron('/'.env('INTERVAL').' * * * *');
+        $schedule->command('adjust:prices')->cron('*/'.env('INTERVAL').' * * * *');
     }
 
     /**
