@@ -50,6 +50,7 @@ class RegisterController extends Controller
             'username' => $request->get('username'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'balance' => env('STARTING_BALANCE', 2500)
         ]);
 
         return response()->json([
