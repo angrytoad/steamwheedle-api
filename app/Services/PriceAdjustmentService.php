@@ -65,12 +65,6 @@ class PriceAdjustmentService {
             /*
              * Proportion is the inverse of the rate between minimum and the current using the base price as a maximum
              */
-
-            /**
-             * I Can't seem to get this working, going up in price seems to be working fine but I can't seem to go down in price
-             * past the base price this is because in the case of strange dust, the min is 200 (500 base) which means the proportion calculation
-             * seems to even itself out if you do the maths.
-             */
             $min = $item->base_price * $this->lowerBound;
             $proportion = -($item->current_price - $min) / ($item->base_price - $min);
         } else {
