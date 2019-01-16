@@ -5,6 +5,6 @@
         'vornat2@gmail.com',
         'tom@firecat.io',
         'phaygewow@gmail.com',
-        'luke1771@hotmail.com'
+        //'luke1771@hotmail.com'
     ],
 ];

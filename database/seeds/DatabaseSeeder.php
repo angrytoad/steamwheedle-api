@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call('RiskSeeder');
         $this->call('RaritySeeder');
         $this->call('ItemSeeder');
+        $this->call('HoldingSeeder');
     }
 }
