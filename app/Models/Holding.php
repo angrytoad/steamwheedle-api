@@ -39,4 +39,9 @@ class Holding extends Model
         'xp_level_increment',
     ];
 
+    public function userHoldings()
+    {
+        return $this->hasMany(UserHolding::class);
+    }
+
 }

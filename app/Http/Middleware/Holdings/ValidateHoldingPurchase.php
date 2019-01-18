@@ -15,6 +15,9 @@ class ValidateHoldingPurchase
      */
     public function handle($request, Closure $next)
     {
+        $request->validate([
+            'holding_id' => 'required|uuid'
+        ]);
         return $next($request);
     }
 }

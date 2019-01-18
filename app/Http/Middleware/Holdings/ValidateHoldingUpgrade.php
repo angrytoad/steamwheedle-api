@@ -15,6 +15,10 @@ class ValidateHoldingUpgrade
      */
     public function handle($request, Closure $next)
     {
+        $request->validate([
+            'user_holding_id' => 'required|uuid',
+            'type' => 'required|string'
+        ]);
         return $next($request);
     }
 }
