@@ -10,6 +10,7 @@ class PriceAdjustmentService {
     protected $interval;
     protected $upperBound;
     protected $lowerBound;
+    protected $pastIntervals;
 
     public function __construct(array $config)
     {
@@ -23,6 +24,7 @@ class PriceAdjustmentService {
         $this->interval = $config['interval'];
         $this->upperBound = $config['upperBound'];
         $this->lowerBound = $config['lowerBound'];
+        $this->pastIntervals = $config['pastIntervals'];
     }
 
     /**
@@ -34,7 +36,7 @@ class PriceAdjustmentService {
     private function calcProportionChange(Item $item) :float
     {
         // Get the difference in buy and sells for a specified item
-        $diff = HistoricTransaction::difference($item, $this->interval);
+        $diff = HistoricTransaction::difference($item, ($this->pastIntervals * $this->interval));
 
         // If sales are equal to purchases make no price change
         if ($diff === 0) {
