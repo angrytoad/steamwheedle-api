@@ -8,10 +8,16 @@
  */
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    public function buy()
+    /**
+     * Purchase the requested holding for the current user
+     *
+     * @param Request $request
+     */
+    public function buy(Request $request)
     {
 
     }

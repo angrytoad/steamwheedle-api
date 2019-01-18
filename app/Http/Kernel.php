@@ -5,6 +5,12 @@ namespace App\Http;
 use App\Http\Middleware\ExpectsJson;
 use App\Http\Middleware\HasFunds;
 use App\Http\Middleware\HasStock;
+use App\Http\Middleware\Holdings\CanAfford;
+use App\Http\Middleware\Holdings\CanCollect;
+use App\Http\Middleware\Holdings\DoesNotOwn;
+use App\Http\Middleware\Holdings\DoesOwn;
+use App\Http\Middleware\Holdings\ValidateHoldingPurchase;
+use App\Http\Middleware\Holdings\ValidateHoldingUpgrade;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,7 +73,14 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'json' => ExpectsJson::class,
         'has-funds' => HasFunds::class,
-        'has-stock' => HasStock::class
+        'has-stock' => HasStock::class,
+        //Holdings middlware
+        'can-afford' => CanAfford::class,
+        'can-collect' => CanCollect::class,
+        'does-not-own' => DoesNotOwn::class,
+        'does-own' => DoesOwn::class,
+        'valid-purchase' => ValidateHoldingPurchase::class,
+        'valid-upgrade' => ValidateHoldingUpgrade::class
     ];
 
     /**

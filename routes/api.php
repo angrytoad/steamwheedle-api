@@ -58,8 +58,8 @@ $this->group(['middleware' => 'auth:api'], function () {
 $this->group(['middleware' => 'auth:api', 'prefix' => 'holdings'], function () {
     $this->get('/', 'Holdings/HoldingController@list');
     $this->group(['middleware' => 'json'], function () {
-        $this->post('/collect', 'Holdings\HoldingController@collect');
-        $this->post('/buy', 'Holdings\PurchaseController@buy');
-        $this->post('/upgrade', 'Holdings\PurchaseController@upgrade');
+        $this->post('/collect', 'Holdings\HoldingController@collect')->middleware(['does-own', 'can-collect']);
+        $this->post('/buy', 'Holdings\PurchaseController@buy')->middleware(['valid-purchase', 'does-not-own', 'can-afford']);
+        $this->post('/upgrade', 'Holdings\PurchaseController@upgrade')->middleware(['valid-upgrade', 'does-own', 'can-afford']);
     });
 });

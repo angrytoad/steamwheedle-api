@@ -9,6 +9,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\Holding;
+use Illuminate\Http\Request;
 
 class HoldingController extends Controller
 {
@@ -23,9 +24,15 @@ class HoldingController extends Controller
         return response()->json($holdings, 200);
     }
 
-    public function users()
+    /**
+     * Returns a users holdings
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function users(Request $request)
     {
-
+        return response()->json($request->user()->holdings, 200);
     }
 
     public function collect()

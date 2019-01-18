@@ -27,7 +27,16 @@ class Holding extends Model
         'rent_interval',
         'rent_upgrades_enabled',
         'discount_upgrades_enabled',
-        'xp_upgrades_enabled'
+        'xp_upgrades_enabled',
+        'rent_max_level',
+        'rent_cost_increment',
+        'rent_level_increment',
+        'discount_max_level',
+        'discount_cost_increment',
+        'discount_level_increment',
+        'xp_max_level',
+        'xp_cost_increment',
+        'xp_level_increment',
     ];
 
 }
