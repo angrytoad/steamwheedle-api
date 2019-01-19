@@ -49,8 +49,6 @@ class TradeController extends Controller {
         $user->profit = $user->profit + $profit;
         $user->save();
 
-        $this->addLevelExperience($user, $profit);
-
         $purchase->current = $purchase->current - $quantity;
         $purchase->save();
         $rem = $purchase->current;
@@ -61,6 +59,8 @@ class TradeController extends Controller {
         $historic->quantity = $quantity;
         $historic->type = false;
         $historic->save();
+
+        $this->addLevelExperience($user, $profit);
 
         return response()->json(['balance' => $user->balance, 'remaining' => $rem, 'profit' => $profit], 200);
     }

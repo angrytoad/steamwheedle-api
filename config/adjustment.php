@@ -8,5 +8,5 @@
     // The multiple of an items base price that is considered the minimum price
     'lowerBound' => 1 / 5,
     // The number of intervals to look back on during the price update
-    'pastIntervals' => 5
+    'pastIntervals' => 1
     ];
