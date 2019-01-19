@@ -69,14 +69,18 @@ class TradeController extends Controller {
         $experience = floor($profit/10);
         $levels = config('levels');
         while($experience > 0){
-            $newTotal = $user->current_experience + $experience;
-            $levelupRequired = $levels[$user->level];
-            if($newTotal >= $levelupRequired){
-                $user->level += 1;
-                $experience -= ($levelupRequired - $user->current_experience);
-                $user->current_experience = 0;
+            if($user->level < 60){
+                $newTotal = $user->current_experience + $experience;
+                $levelupRequired = $levels[$user->level];
+                if($newTotal >= $levelupRequired){
+                    $user->level += 1;
+                    $experience -= ($levelupRequired - $user->current_experience);
+                    $user->current_experience = 0;
+                }else{
+                    $user->current_experience = $newTotal;
+                    $experience = 0;
+                }
             }else{
-                $user->current_experience = $newTotal;
                 $experience = 0;
             }
         }
