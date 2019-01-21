@@ -26,6 +26,10 @@ class UserHolding extends Model
         'copper_sank'
     ];
 
+    protected $dates = [
+        'last_collected_rent'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
