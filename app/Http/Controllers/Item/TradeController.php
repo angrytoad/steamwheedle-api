@@ -5,11 +5,18 @@ use App\Models\HistoricTransaction;
 use App\Models\ItemPurchase;
 use App\Models\Item;
 use App\Models\User;
+use App\Models\UserHolding;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
 class TradeController extends Controller {
 
+    /**
+     * Handle user purchase requests
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function buy(Request $request)
     {
         $item = Item::find($request->get('item_id'));
@@ -35,6 +42,12 @@ class TradeController extends Controller {
         return response()->json(['balance' => $user->balance], 200);
     }
 
+    /**
+     * Handle user sell requests
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sell(Request $request)
     {
         $purchase = ItemPurchase::find($request->get('item_purchase_id'));
@@ -45,9 +58,7 @@ class TradeController extends Controller {
         $buy_value = $quantity * $purchase->buy_price;
         $profit = $current_value - $buy_value;
 
-        $user->balance =  $user->balance + ((1 - env('cut', 0.05)) * $buy_value + $profit);
-        $user->profit = $user->profit + $profit;
-        $user->save();
+        $this->doAhCut($user, $purchase->item, $buy_value, $profit);
 
         $purchase->current = $purchase->current - $quantity;
         $purchase->save();
@@ -60,13 +71,45 @@ class TradeController extends Controller {
         $historic->type = false;
         $historic->save();
 
-        $this->addLevelExperience($user, $profit);
+        $this->addLevelExperience($user, $profit, $purchase->item);
 
         return response()->json(['balance' => $user->balance, 'remaining' => $rem, 'profit' => $profit], 200);
     }
 
-    private function addLevelExperience(User $user, Int $profit){
+    /**
+     * Apply the AH cut taking holdings into account
+     *
+     * @param User $user
+     * @param Int $buyVal
+     * @param Int $profit
+     */
+    private function doAhCut(User $user, Item $item, Int $buyVal, Int $profit)
+    {
+        $holding = UserHolding::where('item_id', $item->id)->where('user_id', $user->id)->first();
+        if (empty($holding)) {
+            $cut = env('cut', 0.05) - ($holding->discount_level * $holding->holding->discount_level_increment);
+            $user->balance =  $user->balance + ((1 - $cut) * $buyVal + $profit);
+        } else {
+            $user->balance =  $user->balance + ((1 - env('cut', 0.05)) * $buyVal + $profit);
+        }
+        $user->profit = $user->profit + $profit;
+        $user->save();
+    }
+
+    /**
+     * Calculate xp for a sale and add it to a users account
+     *
+     * @param User $user
+     * @param Int $profit
+     */
+    private function addLevelExperience(User $user, Int $profit, Item $item){
         $experience = floor($profit/10);
+
+        $holding = UserHolding::where('item_id', $item->id)->where('user_id', $user->id)->first();
+        if (!empty($holding)) {
+            $experience = $experience + ($experience * (1 + ($holding->xp_level * $holding->holding->xp_level_increment)));
+        }
+
         $levels = config('levels');
         while($experience > 0){
             if($user->level < 60){

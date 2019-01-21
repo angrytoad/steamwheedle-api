@@ -11,6 +11,7 @@ use App\Models\Metric;
 use App\Models\User;
 use App\Models\ItemPurchase;
 use App\Models\HistoricTransaction;
+use App\Models\UserHolding;
 use Illuminate\Support\Carbon;
 
 class MetricService
@@ -62,6 +63,9 @@ class MetricService
         }
         foreach(ItemPurchase::all() as $stock) {
             $wealth += $stock->current * $stock->item->current_price;
+        }
+        foreach (UserHolding::all() as $holding) {
+            $wealth += $holding->copper_sank;
         }
         return $wealth;
     }

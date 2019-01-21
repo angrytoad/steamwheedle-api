@@ -44,7 +44,7 @@ class PriceAdjustmentService {
             if (env('APP_RNG', false) === false) {
                 return 0;
             }
-            // Gen a random number 80% no movement, 10% up, 10% down
+            // Gen a random number 60% no movement, 20% up, 20% down
             $rng = rand(1, 10);
             if ($rng <= 6) {
                 return 0;
@@ -101,6 +101,11 @@ class PriceAdjustmentService {
         return ($item->risk->swing * $proportion) / 100;
     }
 
+    /**
+     * Adjust each items price based on sales/purchases
+     *
+     * @param int $cycles
+     */
     public function adjust($cycles = 1)
     {
         // Cycle through each item and calculate the adjustment
@@ -124,6 +129,12 @@ class PriceAdjustmentService {
 
     }
 
+    /**
+     * Round the specified float based on the rounding config
+     *
+     * @param $float
+     * @return float
+     */
     private function round($float)
     {
         if($float < 0){
