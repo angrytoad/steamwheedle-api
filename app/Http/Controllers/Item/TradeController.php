@@ -85,8 +85,11 @@ class TradeController extends Controller {
      */
     private function doAhCut(User $user, Item $item, Int $buyVal, Int $profit)
     {
-        $holding = UserHolding::where('item_id', $item->id)->where('user_id', $user->id)->first();
-        if (empty($holding)) {
+        $holdings = UserHolding::where('user_id', $user->id)->get();
+        $holding = $holdings->filter(function ($holding) use ($item) {
+            return $holding->holding->item_id === $item->id;
+        });
+        if (empty($holding->first())) {
             $cut = env('cut', 0.05) - ($holding->discount_level * $holding->holding->discount_level_increment);
             $user->balance =  $user->balance + ((1 - $cut) * $buyVal + $profit);
         } else {
