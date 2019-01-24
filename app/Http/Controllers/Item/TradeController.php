@@ -89,7 +89,7 @@ class TradeController extends Controller {
             ->where('holdings.item_id', $item->id)
             ->where('user_holdings.user_id', $user->id)
             ->first();
-        if (empty($holding)) {
+        if (!empty($holding)) {
             $cut = env('cut', 0.05) - ($holding->discount_level * $holding->holding->discount_level_increment);
             $user->balance =  $user->balance + ((1 - $cut) * $buyVal + $profit);
         } else {
