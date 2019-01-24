@@ -108,7 +108,10 @@ class TradeController extends Controller {
     private function addLevelExperience(User $user, Int $profit, Item $item){
         $experience = floor($profit/10);
 
-        $holding = UserHolding::where('item_id', $item->id)->where('user_id', $user->id)->first();
+        $holding = UserHolding::join('holdings','holdings.id','=','user_holdings.holding_id')
+            ->where('holdings.item_id', $item->id)
+            ->where('user_holdings.user_id', $user->id)
+            ->first();
         if (!empty($holding)) {
             $experience = $experience + ($experience * (1 + ($holding->xp_level * $holding->holding->xp_level_increment)));
         }
