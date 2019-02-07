@@ -20,6 +20,9 @@ class Item extends Model
         'name',
         'description',
         'risk_id',
+        'rarity_id',
+        'category_id',
+        'image',
         'current_price',
         'base_price'
     ];
