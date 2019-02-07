@@ -52,8 +52,6 @@ class ScrapeItems extends Command
         }
 
         $csv = fopen(base_path() . '/data/items.csv', 'r');
-        $categories = Category::all()->pluck('name')->toArray();
-        $prevCat = null;
 
         $this->info('Beginning scrape...');
         while (!feof($csv)) {
@@ -65,18 +63,7 @@ class ScrapeItems extends Command
             $data = $this->scrapePageData($item[2]);
             $data['name'] = $item[0];
             $data['description'] = $item[1];
-            $category = $this->askWithCompletion('What category is this?', $categories);
-            if (empty($category)) {
-                if (empty($prevCat)) {
-                    $this->error('You must at least select one category!');
-                    return false;
-                } else {
-                    $category = $prevCat;
-                }
-            } else {
-                $prevCat = $category;
-            }
-            $data['category_id'] = Category::where('name', $category)->first()->id;
+            $data['category_id'] = Category::where('name', $item[3])->first()->id;
 
             if (!$this->validateData($data)) {
                 $this->error('Error with this items data!  Skipping...');
