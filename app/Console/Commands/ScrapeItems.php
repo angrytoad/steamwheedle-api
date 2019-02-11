@@ -102,7 +102,7 @@ class ScrapeItems extends Command
         $data = [];
         $page = $this->scraper->request('GET', $url);
         $data['base_price'] = $this->fetchAndCalcPrice($page);
-        $data['image'] = $this->fetchImage($page);
+        $data['image'] = '/img/icons/' . $this->fetchImage($page);
         $data['rarity_id'] = $this->fetchRarity($page);
         return $data;
     }
