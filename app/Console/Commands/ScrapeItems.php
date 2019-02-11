@@ -146,17 +146,17 @@ class ScrapeItems extends Command
         }
         switch ($class) {
             case "q0":
-                return ItemRarity::where('name', 'Poor')->first()->rarity_id;
+                return ItemRarity::where('name', 'Poor')->first()->id;
             case "q1":
-                return ItemRarity::where('name', 'Common')->first()->rarity_id;
+                return ItemRarity::where('name', 'Common')->first()->id;
             case "q2":
-                return ItemRarity::where('name', 'Uncommon')->first()->rarity_id;
+                return ItemRarity::where('name', 'Uncommon')->first()->id;
             case "q3":
-                return ItemRarity::where('name', 'Rare')->first()->rarity_id;
+                return ItemRarity::where('name', 'Rare')->first()->id;
             case "q4":
-                return ItemRarity::where('name', 'Epic')->first()->rarity_id;
+                return ItemRarity::where('name', 'Epic')->first()->id;
             case "q5":
-                return ItemRarity::where('name', 'Legendary')->first()->rarity_id;
+                return ItemRarity::where('name', 'Legendary')->first()->id;
         }
         return false;
     }
@@ -225,18 +225,18 @@ class ScrapeItems extends Command
     {
         $rng = rand(1, 100);
         if ($rng <= 30) {
-            return Risk::where('name', 'Very Low')->first()->risk_id;
+            return Risk::where('name', 'Very Low')->first()->id;
         }
         if ($rng <= 55) {
-            return Risk::where('name', 'Low')->first()->risk_id;
+            return Risk::where('name', 'Low')->first()->id;
         }
         if ($rng <= 75) {
-            return Risk::where('name', 'Medium')->first()->risk_id;
+            return Risk::where('name', 'Medium')->first()->id;
         }
         if ($rng <= 90) {
-            return Risk::where('name', 'High')->first()->risk_id;
+            return Risk::where('name', 'High')->first()->id;
         }
-        return Risk::where('name', 'Very High')->first()->risk_id;
+        return Risk::where('name', 'Very High')->first()->id;
 
     }
 
