@@ -70,6 +70,11 @@ class ScrapeItems extends Command
                 continue;
             }
 
+            // Temporary allows items to be added with no description
+            if (is_null($data['description'])) {
+                $data['description'] = '';
+            }
+
             $record = Item::where('name', $data['name'])->first();
             if (empty($record)) {
                 $record = new Item();
@@ -201,9 +206,9 @@ class ScrapeItems extends Command
         if (!is_string($data['name']) || empty($data['name'])) {
             return false;
         }
-        if (!is_string($data['description']) || empty($data['description'])) {
-            return false;
-        }
+//        if (!is_string($data['description']) || empty($data['description'])) {
+//            return false;
+//        }
         if (!is_int($data['base_price']) || empty($data['base_price'])) {
             return false;
         }
